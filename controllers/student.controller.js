@@ -1,4 +1,5 @@
 const Student = require('../models/student.model')
+const Classroom =  require('../models/classroom.model')
 
 const studentController = {
     getStudents: async function(req, res) {
@@ -28,14 +29,25 @@ const studentController = {
 
     addStudent: async function(req, res) {
         try {
-            const student =  new Student({
-                name: req.body.name,
-                last_name: req.body.last_name,
-                card_uid: req.body.card_uid
-            })
-            const savedStudent =  await student.save()
+            const classroom = await Classroom.findOne({name: req.body.classroom.toUpperCase()})
 
-            return res.status(200).json(savedStudent)
+            if (classroom) {
+                const {year, month, day} = req.body.birthdate
+                const birthdate = new Date(year, month, day + 1)
+
+                const student =  new Student({
+                    name: req.body.name,
+                    last_name: req.body.last_name,
+                    card_uid: req.body.card_uid,
+                    birthdate: birthdate,
+                    classroom: classroom._id
+                })
+                const savedStudent =  await student.save()
+                const result = await classroom.update({$push: {students: savedStudent}})
+    
+                return res.status(200).json(result)
+            }
+            return res.status(400).json({error: `The classroom ${req.body.classroom} does not exist, create it in first place`})
         } 
         catch (e) {
             return res.status(500).json(e)
