@@ -34,7 +34,7 @@ const classroomController = {
     //Create a blank classroom
     createClassroom: async function(req, res) {
         try {
-            const classroom = new Classroom({name: req.body.name.toUpperCase()})
+            const classroom = new Classroom({name: req.body.name})
             const result = await classroom.save()
 
             return res.status(200).json(result)   

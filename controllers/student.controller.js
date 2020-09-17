@@ -29,7 +29,7 @@ const studentController = {
 
     addStudent: async function(req, res) {
         try {
-            const classroom = await Classroom.findOne({name: req.body.classroom.toUpperCase()})
+            const classroom = await Classroom.findOne({name: req.body.classroom})
 
             if (classroom) {
                 const {year, month, day} = req.body.birthdate
@@ -38,18 +38,19 @@ const studentController = {
                 const student =  new Student({
                     name: req.body.name,
                     last_name: req.body.last_name,
-                    card_uid: req.body.card_uid,
+                    card_uid: req.body.card_uid.toUpperCase(),
                     birthdate: birthdate,
                     classroom: classroom._id
                 })
                 const savedStudent =  await student.save()
-                const result = await classroom.update({$push: {students: savedStudent}})
+                const result = await classroom.updateOne({$push: {students: savedStudent}})
     
                 return res.status(200).json(result)
             }
             return res.status(400).json({error: `The classroom ${req.body.classroom} does not exist, create it in first place`})
         } 
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
