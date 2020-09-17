@@ -8,6 +8,7 @@ const app = express()
 //Project modules
 const studentRouter = require('./routes/students.route')
 const classroomRouter = require('./routes/classroom.route')
+const courseRouter = require('./routes/course.route')
 
 //Envs configuration
 dotenv.config()
@@ -30,6 +31,7 @@ app.use(express.urlencoded({extended: false}))
 //Routing
 app.use('/students', studentRouter)
 app.use('/classrooms', classroomRouter)
+app.use('/courses', courseRouter)
 
 //Server entry point
 app.listen(port, () => console.log(`Server is running on port ${port}`))
