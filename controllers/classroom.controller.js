@@ -11,6 +11,7 @@ const classroomController = {
             return res.status(200).json(classrooms)
         }
         catch(e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -27,6 +28,7 @@ const classroomController = {
             return res.status(400).json({error: "The request URL must contain a id params"})
         } 
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -40,12 +42,13 @@ const classroomController = {
             return res.status(200).json(result)   
         } 
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
 
     //Add a student to a specific classroom, 
-    //a parameter "id" must be supplied in the request, it will be used to fetch de matching classroom
+    //a parameter "id" must be supplied in the request URL, it will be used to fetch de matching classroom
     //the body of the request must contain the id of the student, ie {id: "your id here"}
     addStudentToClassroom: async function(req, res) {
         try {
@@ -59,8 +62,11 @@ const classroomController = {
                     const result =  await Classroom.findByIdAndUpdate(req.params.id, {
                         $push: {students: student}
                     }, options)
-    
-                    return res.status(200).json(result)
+
+                    if (result) {
+                        return res.status(200).json(result)
+                    }
+                    return res.status(404).json({error: `No classroom found matching the ID ${req.params.id}`})
                 }
     
                 return res.status(404).json(`No student match the id ${req.params.id}`)
@@ -69,6 +75,7 @@ const classroomController = {
             return res.status(400).json({error: "The request URL must contain a \"id\" param"})   
         }
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }  
     },
@@ -84,6 +91,7 @@ const classroomController = {
             return res.status(200).json(result)   
         }
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -103,6 +111,7 @@ const classroomController = {
             return res.status(400).json({error: "The request URL must contain a id param"})
         } 
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     }

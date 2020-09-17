@@ -9,6 +9,7 @@ const studentController = {
             return res.status(200).json(students)
         }
         catch(e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -23,6 +24,7 @@ const studentController = {
             return res.status(404).json({error: `No student matches the id ${req.params.id}`})
         }
         catch(e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -64,6 +66,7 @@ const studentController = {
             return res.status(200).json(result)
         } 
         catch(e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -77,6 +80,7 @@ const studentController = {
             return res.status(200).json(result)
         } 
         catch(e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     }

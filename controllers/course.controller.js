@@ -11,6 +11,7 @@ const courseController = {
             return res.status(200).json(course)
         } 
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -27,6 +28,7 @@ const courseController = {
             return res.json(result)
         } 
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -41,6 +43,7 @@ const courseController = {
             return res.status(404).json({error: `No course found matching the ID ${req.params.id}`})
         } 
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }  
     },
@@ -52,6 +55,7 @@ const courseController = {
             return res.status(200).json(result)   
         }
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     },
@@ -63,6 +67,7 @@ const courseController = {
             return res.status(200).json(result)
         }
         catch (e) {
+            console.log(e)
             return res.status(500).json(e)
         }
     }
