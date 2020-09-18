@@ -10,6 +10,7 @@ const studentRouter = require('./routes/students.route')
 const classroomRouter = require('./routes/classroom.route')
 const courseRouter = require('./routes/course.route')
 const attendanceRouter = require('./routes/attendance.route')
+const authRouter = require('./routes/auth.route')
 
 //Envs configuration
 dotenv.config()
@@ -30,6 +31,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 //Routing
+app.use('/', authRouter)
 app.use('/students', studentRouter)
 app.use('/classrooms', classroomRouter)
 app.use('/courses', courseRouter)
