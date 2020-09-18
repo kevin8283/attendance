@@ -4,6 +4,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const app = express()
 
 //Envs configuration
@@ -30,7 +31,8 @@ const options = {
 }
 mongoose.connect(dbURI, options, () => console.log("Connected with database"))
 
-//Express built-in middlewares
+//Middlewares
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser(cookie_secret))
