@@ -12,7 +12,7 @@ const courseController = {
         } 
         catch (e) {
             console.log(e)
-            return res.status(500).json(e)
+            return res.status(500).send(e)
         }
     },
 
@@ -29,7 +29,7 @@ const courseController = {
         } 
         catch (e) {
             console.log(e)
-            return res.status(500).json(e)
+            return res.status(500).send(e)
         }
     },
 
@@ -44,7 +44,7 @@ const courseController = {
         } 
         catch (e) {
             console.log(e)
-            return res.status(500).json(e)
+            return res.status(500).send(e)
         }  
     },
 
@@ -56,7 +56,7 @@ const courseController = {
         }
         catch (e) {
             console.log(e)
-            return res.status(500).json(e)
+            return res.status(500).send(e)
         }
     },
 
@@ -68,7 +68,7 @@ const courseController = {
         }
         catch (e) {
             console.log(e)
-            return res.status(500).json(e)
+            return res.status(500).send(e)
         }
     }
 }
