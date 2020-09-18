@@ -63,12 +63,21 @@ const attendanceController = {
             const year = date.getFullYear()
             const dateNow = new Date(year, month, day)
 
-            const student = await Student.findOne({card_uid: req.body.uid.toUpperCase()})
+            const projection = "_id name last_name classroom card_uid"
+            const student = await Student.findOne({card_uid: req.body.uid.toUpperCase()}, projection)
 
             if (student) {
-                const result = await Attendance.findOneAndUpdate({date: dateNow, "classroom": student.classroom}, {$push: {students: student}}, options)
+                const attendance = await Attendance.findOne({date: dateNow, "classroom": student.classroom})
 
-                return res.status(200).json(result)   
+                if (attendance) {
+                    if (attendance.students.findIndex((index, item) => toString(item._id) === toString(student._id)) !== -1) {
+                        return res.status(400).json(`${student.name} ${student.last_name} is already in the list`)
+                    }
+                    const result = await attendance.updateOne({$push: {students: student}}, options)
+
+                    return res.status(200).json(result)
+                }
+                return res.status(404).json(`No attendance list found`)
             }
             return res.status(404).json(`No student found matching the Card: ${req.body.uid}`) 
        } 
