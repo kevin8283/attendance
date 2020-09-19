@@ -1,11 +1,13 @@
 //External dependencies
-
+const http = require('http')
 const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const io = require('socket.io')()
 const app = express()
+const server = http.createServer(app)
 
 //Envs configuration
 dotenv.config()
@@ -18,6 +20,7 @@ const attendanceRouter = require('./routes/attendance.route')
 const authRouter = require('./routes/auth.route')
 const scanRouter = require('./routes/scan-card.route')
 const { tokenMiddleware } = require('./middlewares/token.middleware')
+const { socketMiddleware } = require('./middlewares/socket.middleware')
 
 //Envs variables
 const port = process.env.PORT || 5000
@@ -46,4 +49,11 @@ app.use('/courses', tokenMiddleware.checkToken, courseRouter)
 app.use('/attendance', tokenMiddleware.checkToken, attendanceRouter)
 
 //Server entry point
-app.listen(port, () => console.log(`Server is running on port ${port}`))
+server.listen(port, () => console.log(`Server is running on port ${port}`))
+
+//Socket middlewares
+io.use(socketMiddleware.checkSocketID)
+
+//Socket.io entry point
+io.listen(server)
+

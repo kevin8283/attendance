@@ -8,11 +8,17 @@ const tokenMiddleware = {
         if (token === undefined) {
             return res.status(403).json(`You are not authenticated`)
         }
-        const decodedToken = await jwt.verify(token, token_secret)
-        if (decodedToken) {
-            next()
+
+        try {
+            const result = await jwt.verify(token, token_secret)
+
+            if (result) {
+                return next()
+            }   
+        } 
+        catch(error) {
+            return res.status(403).json('Your token is invalid')   
         }
-        return res.status(403).json('Your token is invalid')
     }
 }
 

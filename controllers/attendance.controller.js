@@ -74,8 +74,8 @@ const attendanceController = {
                         return res.status(400).json(`${student.name} ${student.last_name} is already in the list`)
                     }
                     const result = await attendance.updateOne({$push: {students: student}}, options)
-
-                    return res.status(200).json(result)
+                    
+                    return res.status(200).json({message: `${student.name} ${student.last_name} was added in the list`, result: result})
                 }
                 return res.status(404).json(`No attendance list found`)
             }
