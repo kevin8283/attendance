@@ -21,6 +21,7 @@ const authRouter = require('./routes/auth.route')
 const scanRouter = require('./routes/scan-card.route')
 const { tokenMiddleware } = require('./middlewares/token.middleware')
 const { socketMiddleware } = require('./middlewares/socket.middleware')
+const { corsMiddleware } = require('./middlewares/cors.middleware')
 
 //Envs variables
 const port = process.env.PORT || 5000
@@ -35,7 +36,7 @@ const options = {
 mongoose.connect(dbURI, options, () => console.log("Connected with database"))
 
 //Middlewares
-app.use(cors())
+app.use(corsMiddleware.useCors)
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser(cookie_secret))
