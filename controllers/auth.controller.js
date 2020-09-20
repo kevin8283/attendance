@@ -12,7 +12,10 @@ const authController = {
                 const result = await bcrypt.compare(req.body.password, admin.password)
 
                 if (result) {
-                    const token = await jwt.sign({user: admin.username}, token_secret)
+                    const token = await jwt.sign({
+                        id: admin._id, 
+                        username: admin.username,
+                    }, token_secret, {expiresIn: 1000 * 60 * 5})
 
                     res.cookie('authToken', token, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
                     return res.status(200).json(result)
