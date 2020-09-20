@@ -51,6 +51,23 @@ const authController = {
         }
     },
 
+    checkIfLoggedIn: function(req, res) {
+        try {
+            const token = req.cookies.authToken
+
+            if (token) {
+                res.status(200).json(true)
+            }
+
+            return res.status(401).json(false)   
+        } 
+        catch(error) {
+            console.log(error.message)
+
+            return res.status(500).json(error.message)
+        }
+    },
+
     logout: function(req, res) {
         res.clearCookie('authToken')
 
