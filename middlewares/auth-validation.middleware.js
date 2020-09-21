@@ -5,13 +5,13 @@ const authMiddleware = {
     validateLogin: function (req, res, next) {
         const schema = Joi.object({
             email: Joi.string().email().required(),
-            password: Joi.string().min(8).max(32).required()
+            password: Joi.string().required()
         })
 
         const result = schema.validate(req.body)
 
         if (result.error) {
-            return res.status(400).json(result.error.details[0].message)
+            return res.json({error: result.error.details[0].message})
         }
 
         return next()
@@ -27,13 +27,13 @@ const authMiddleware = {
         const result = schema.validate(req.body)
 
         if (result.error) {
-            res.status(400).json(result.error.details[0].message)
+            res.json({error: result.error.details[0].message})
         }
         else {
             if (admin) {
                 const equal = admin.email === req.body.email ? admin.email : admin.username
     
-                return res.status(400).json(`${equal} is already taken`)
+                return res.json({error: `${equal} is already taken`})
             }
             return next()
         }

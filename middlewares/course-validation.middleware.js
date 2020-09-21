@@ -11,7 +11,7 @@ const courseMiddleware = {
         const result = schema.validate(req.body)
 
         if (result.error) {
-            return res.status(400).json(result.error.details[0].message)
+            return res.json({error: result.error.details[0].message})
         }
         return next()
     },
@@ -25,7 +25,7 @@ const courseMiddleware = {
         const result = schema.validate(req.body)
 
         if (result.error) {
-            return res.status(400).json(result.error.details[0].message)
+            return res.json({error: result.error.details[0].message})
         }
         return next()
     }

@@ -31,7 +31,7 @@ const attendanceController = {
             const existingAttendance = await Attendance.findOne({date: dateNow, course: course})
 
             if (existingAttendance) {
-                return res.status(400).json({error: `There is already an existing attendance list for ${course.name}, for today`})
+                return res.json({error: `There is already an existing attendance list for ${course.name}, for today`})
             }
             else {
                 console.log(existingAttendance)
@@ -71,15 +71,15 @@ const attendanceController = {
 
                 if (attendance) {
                     if (attendance.students.findIndex((index, item) => toString(item._id) === toString(student._id)) !== -1) {
-                        return res.status(400).json(`${student.name} ${student.last_name} is already in the list`)
+                        return res.json({error: `No account match the email ${req.body.email}`})
                     }
                     const result = await attendance.updateOne({$push: {students: student}}, options)
                     
                     return res.status(200).json({message: `${student.name} ${student.last_name} was added in the list`, result: result})
                 }
-                return res.status(404).json(`No attendance list found`)
+                return res.json({error: `No attendance list found`})
             }
-            return res.status(404).json(`No student found matching the Card: ${req.body.uid}`) 
+            return res.json({error: `No student found matching the Card: ${req.body.uid}`}) 
        } 
        catch (e) {
            return res.status(500).send(e)

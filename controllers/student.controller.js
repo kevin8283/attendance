@@ -21,7 +21,7 @@ const studentController = {
             if (student) {
                 return res.status(200).json(student)   
             }
-            return res.status(404).json({error: `No student matches the id ${req.params.id}`})
+            return res.json({error: `No student matches the id ${req.params.id}`})
         }
         catch(e) {
             console.log(e)
@@ -49,7 +49,7 @@ const studentController = {
     
                 return res.status(200).json(result)
             }
-            return res.status(400).json({error: `The classroom ${req.body.classroom} does not exist, create it in first place`})
+            return res.json({error: `The classroom ${req.body.classroom} does not exist, create it in first place`})
         } 
         catch (e) {
             console.log(e)

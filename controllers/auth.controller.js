@@ -20,9 +20,9 @@ const authController = {
                     res.cookie('authToken', token, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
                     return res.status(200).json(result)
                 }
-                return res.status(400).json({"error": "Password is incorrect"})
+                return res.json({error: "Password is incorrect"})
             }
-            return res.status(404).json(`No account match the email ${req.body.email}`)
+            return res.json({error: `No account match the email ${req.body.email}`})
         } 
         catch (e) {
             console.log(e)
@@ -56,10 +56,10 @@ const authController = {
             const token = req.cookies.authToken
 
             if (token) {
-                res.status(200).json(true)
+                return res.json(true)
             }
 
-            return res.status(401).json(false)   
+            return res.json(false)   
         } 
         catch(error) {
             console.log(error.message)

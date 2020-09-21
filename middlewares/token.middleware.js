@@ -6,7 +6,7 @@ const tokenMiddleware = {
         const token = req.cookies.authToken
 
         if (token === undefined) {
-            return res.status(403).json(`You are not authenticated`)
+            return res.json({error: `You are not authenticated`})
         }
 
         try {
@@ -17,7 +17,7 @@ const tokenMiddleware = {
             }   
         } 
         catch(error) {
-            return res.status(403).json('Your token is invalid')   
+            return res.json({error: `You are not authenticated`})   
         }
     }
 }

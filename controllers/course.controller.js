@@ -40,7 +40,7 @@ const courseController = {
             if (course) {
                 return res.status(200).json(course)
             }
-            return res.status(404).json({error: `No course found matching the ID ${req.params.id}`})
+            return res.json({error: `No course found matching the ID ${req.params.id}`})
         } 
         catch (e) {
             console.log(e)

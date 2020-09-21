@@ -25,7 +25,7 @@ const classroomController = {
                 return res.status(200).json(classroom)
             }
             
-            return res.status(400).json({error: "The request URL must contain a id params"})
+            return res.json({error: "The request URL must contain a id params"})
         } 
         catch (e) {
             console.log(e)
@@ -66,13 +66,13 @@ const classroomController = {
                     if (result) {
                         return res.status(200).json(result)
                     }
-                    return res.status(404).json({error: `No classroom found matching the ID ${req.params.id}`})
+                    return res.json({error: `No classroom found matching the ID ${req.params.id}`})
                 }
     
-                return res.status(404).json(`No student match the id ${req.params.id}`)
+                return res.json({error: `No student match the id ${req.params.id}`})
             }
     
-            return res.status(400).json({error: "The request URL must contain a \"id\" param"})   
+            return res.json({error: "The request URL must contain a \"id\" param"})   
         }
         catch (e) {
             console.log(e)
@@ -108,7 +108,7 @@ const classroomController = {
                 return res.status(200).json(result)
             }
             
-            return res.status(400).json({error: "The request URL must contain a id param"})
+            return res.json({error: "The request URL must contain a id param"})
         } 
         catch (e) {
             console.log(e)
