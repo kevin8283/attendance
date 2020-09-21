@@ -3,7 +3,7 @@ const Joi = require('joi')
 const courseMiddleware = {
     validateAddCourse: function (req, res, next) {
         const schema = Joi.object({
-            name: Joi.string().min(2).required().alphanum(),
+            name: Joi.string().min(2).required(),
             reference: Joi.string().min(4).alphanum().required(),
             classroom: Joi.string().min(2).alphanum().required()
         })

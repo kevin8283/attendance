@@ -18,7 +18,7 @@ const authController = {
                     }, token_secret, {expiresIn: 1000 * 60 * 60 * 24})
 
                     res.cookie('authToken', token, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
-                    return res.status(200).json(result)
+                    return res.status(200).json({username: admin.username})
                 }
                 return res.json({error: "Password is incorrect"})
             }
