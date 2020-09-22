@@ -2,6 +2,7 @@ const Attendance = require('../models/attendance.model')
 const Course = require('../models/course.model')
 const Student = require('../models/student.model')
 const Classroom = require('../models/classroom.model')
+const History = require('../models/history.model')
 
 const attendanceController = {
 
@@ -70,19 +71,32 @@ const attendanceController = {
                 const attendance = await Attendance.findOne({date: dateNow, "classroom": student.classroom})
 
                 if (attendance) {
-                    if (attendance.students.findIndex((index, item) => toString(item._id) === toString(student._id)) !== -1) {
-                        return res.json({error: `No account match the email ${req.body.email}`})
+
+                    if (attendance.students.findIndex((item, index) => toString(item._id) === toString(student._id)) !== -1) {
+                        return res.json({error: `${student.name} ${student.last_name} is already in the list`})
                     }
+                    const history = new History({
+                        name: student.name,
+                        last_name: student.last_name,
+                        student_id: student._id,
+                        classroom: student.classroom,
+                        course: attendance.course.name,
+                        card_uid: student.card_uid,
+                        date: Date.now()
+                    })
+
                     const result = await attendance.updateOne({$push: {students: student}}, options)
+                    const final = await history.save()
                     
-                    return res.status(200).json({message: `${student.name} ${student.last_name} was added in the list`, result: result})
+                    return res.status(200).json({message: `${student.name} ${student.last_name} was added in the list`, result: result, final: final})
                 }
                 return res.json({error: `No attendance list found`})
             }
             return res.json({error: `No student found matching the Card: ${req.body.uid}`}) 
        } 
        catch (e) {
-           return res.status(500).send(e)
+           console.log(e)
+           return res.status(500).send(e.message)
        }
     }
 }

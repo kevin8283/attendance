@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const {attendanceController} = require('../controllers/attendance.controller')
 const {attendanceMiddleware} = require('../middlewares/attendance-validation.middleware')
-const {} = require('../middlewares/token.middleware')
 const {tokenMiddleware} = require('../middlewares/token.middleware')
 
 router.get('/', tokenMiddleware.checkToken, attendanceController.getAttendances)
