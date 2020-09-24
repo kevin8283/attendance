@@ -1,8 +1,9 @@
 const Joi = require('joi')
+const Student = require('../models/student.model')
 
 const studentMiddleware = {
 
-    validateAddStudent: function(req, res, next) {
+    validateAddStudent: async function(req, res, next) {
         const studentSchema = Joi.object({
             name: Joi.string().min(2).max(25).required(),
             last_name: Joi.string().min(2).max(25).required(),
@@ -19,6 +20,11 @@ const studentMiddleware = {
 
         if (result.error) {
             return res.json({error: result.error.details[0].message})
+        }
+        const student = await Student.findOne({card_uid: req.body.card_uid})
+
+        if (student) {
+            return res.json({error: `The card ${req.body.card_uid} is already taken`})
         }
         return next()
     },

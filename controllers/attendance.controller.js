@@ -35,7 +35,6 @@ const attendanceController = {
                 return res.json({error: `There is already an existing attendance list for ${course.name}, for today`})
             }
             else {
-                console.log(existingAttendance)
                 const attendance = new Attendance({
                     date: dateNow,
                     course: course,
@@ -72,7 +71,7 @@ const attendanceController = {
 
                 if (attendance) {
 
-                    if (attendance.students.findIndex((item, index) => toString(item._id) === toString(student._id)) !== -1) {
+                    if (attendance.students.findIndex((item, index) => item.card_uid === student.card_uid) !== -1) {
                         return res.json({error: `${student.name} ${student.last_name} is already in the list`})
                     }
                     const history = new History({
