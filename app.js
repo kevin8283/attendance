@@ -58,4 +58,3 @@ io.use(socketMiddleware.checkSocketID)
 
 //Socket.io entry point
 io.listen(server)
-

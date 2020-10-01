@@ -7,4 +7,6 @@ router.get('/', tokenMiddleware.checkToken, attendanceController.getAttendances)
 
 router.post('/add', tokenMiddleware.checkToken, attendanceMiddleware.validateCreateBlankList, attendanceController.createBlankList)
 
+router.delete('/delete/:id', tokenMiddleware.checkToken, attendanceController.deleteAttendance)
+
 module.exports = router

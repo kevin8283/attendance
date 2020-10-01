@@ -22,7 +22,7 @@ const attendanceController = {
     createBlankList: async function(req, res) {
         try {
             const date = new Date()
-            const day = date.getDate() + 1
+            const day = date.getDate()
             const month = date.getMonth()
             const year = date.getFullYear()
             const dateNow = new Date(year, month, day)
@@ -58,7 +58,7 @@ const attendanceController = {
             }
 
             const date = new Date()
-            const day = date.getDate() + 1
+            const day = date.getDate() 
             const month = date.getMonth()
             const year = date.getFullYear()
             const dateNow = new Date(year, month, day)
@@ -97,6 +97,19 @@ const attendanceController = {
            console.log(e)
            return res.status(500).send(e.message)
        }
+    },
+
+    deleteAttendance: async function (req, res) {
+        try {
+            const result =  await Attendance.findByIdAndDelete(req.params.id, {
+                useFindAndModify: false
+            })
+    
+            return res.json(result)
+        }
+        catch(error) {
+            return res.status(500).json(error.message)
+        }
     }
 }
 
