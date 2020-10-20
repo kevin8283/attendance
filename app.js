@@ -43,12 +43,18 @@ app.use(cookieParser(cookie_secret))
 
 //Routing
 app.use('/', authRouter)
-app.use('/', scanRouter)
+app.use('/', broadcast, scanRouter)
 app.use('/students', tokenMiddleware.checkToken, studentRouter)
 app.use('/classrooms', tokenMiddleware.checkToken, classroomRouter)
 app.use('/courses', tokenMiddleware.checkToken, courseRouter)
 app.use('/attendances', tokenMiddleware.checkToken, attendanceRouter)
 app.use('/history', historyRouter)
+
+function broadcast(req, res, next) {
+    io.emit("new-student")
+
+    next()
+}
 
 //Server entry point
 server.listen(port, () => console.log(`Server is running on port ${port}`))
